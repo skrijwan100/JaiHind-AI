@@ -20,9 +20,8 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col  mx-auto bg-gray-100 rounded-lg shadow-lg p-4 h-[90vh] w-[70vw]" style={{marginTop:"20px"}}>
+    <div className="flex flex-col  mx-auto  bg-[#513196] rounded-lg shadow-lg  h-[75vh] w-[60vw] border-2 border-[#92ff00]" style={{marginTop:"20px",padding:"7px"}}>
       <div className="flex-1 overflow-y-auto mb-2 space-y-2" >
-    <header>Hi I am JaiHind Ai</header>
         {messages.map((msg, index) => (
           <div
             key={index}
