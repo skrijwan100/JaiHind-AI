@@ -11,7 +11,7 @@ function App() {
     <header className='text-center'>
       <div className='flex justify-center'>
 
-      <img src={logo} alt="This is logo"  style={{width:"100px",borderRadius:"50%",height:"100px"}}/>
+      {/* <img src={logo} alt="This is logo"  style={{width:"100px",borderRadius:"50%",height:"100px"}}/> */}
       </div>
       <div className="wish">
             <TypeAnimation
@@ -25,7 +25,7 @@ function App() {
               wrapper="b"
               speed={40}
               repeat={Infinity}
-              style={{ fontSize: "40px",color:"#bfd4fe"}}
+              style={{ fontSize: "40px",color:"#08ff00",fontFamily:"play"}}
             /></div></header>
     <div className="main flex justify-center ">
       <Chatbot/>
