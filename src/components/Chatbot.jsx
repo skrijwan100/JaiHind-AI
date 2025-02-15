@@ -18,7 +18,12 @@ export default function Chatbot() {
 
     // Simulating AI response (Replace this with API call)
     setTimeout(() => {
-      setMessages(prev => [...prev, { text: "This is an AI response!", sender: "bot" }]);
+      if(input==="কেমন আছেন?"){
+
+       return setMessages(prev => [...prev, { text:"আমি ভালো আছি। তুমি কেমন আছো আজ আমি তোমাকে কিভাবে সাহায্য করতে পারি?", sender: "bot" }]);
+      }
+      if(input==="তুমি কি তামিল ভাষা জানো?")
+      return setMessages(prev => [...prev, { text: "হ্যাঁ, আমি তামিল ভাষা জানি।(ஆமாம், எனக்கு தமிழ் தெரியும்.)", sender: "bot" }]);
     }, 1000);
   };
 
