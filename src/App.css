@@ -1,3 +1,7 @@
 @import "tailwindcss";
-
+.set-text{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
 

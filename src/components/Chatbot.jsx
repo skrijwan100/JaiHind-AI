@@ -25,7 +25,7 @@ export default function Chatbot() {
   return (
     <div className="flex flex-col  mx-auto  bg-[#1B1B2F] rounded-lg shadow-lg  h-[89vh] w-[60vw] border-2 border-[#00E5FF]" style={{ marginTop: "8px", padding: "7px" }}>
       <div className="flex-1 overflow-y-auto mb-2 space-y-2" >
-        <div className={`flex flex-col-reverse   justify-center items-center ${hellomessage?"h-[100%]":""}`} style={{fontFamily:"Tektur",fontSize:"30px",fontWeight:"600",color:"#58f5ff"}}>
+        <div className={`flex flex-col-reverse  justify-center items-center ${hellomessage?"h-[100%]":""}`} style={{fontFamily:"Tektur",fontSize:"30px",fontWeight:"600",color:"#58f5ff"}}>
         {hellomessage?      <TypeAnimation
               sequence={[
                 // Same substring at the start will only be typed out once, initially
@@ -42,8 +42,8 @@ export default function Chatbot() {
         {messages.map((msg, index) => (
           <div
             key={index}
-           style={{padding:"5px"}}
-            className={`p-2 rounded-lg  ${msg.sender === "user" ? "bg-blue-500 flex text-white self-end" : "bg-gray-300 text-black self-start"}`}
+           style={{padding:"5px",marginBottom:"5px"}}
+            className={`p-2 rounded-lg  ${msg.sender === "user" ? "bg-blue-500 flex text-white self-end set-text" : "bg-gray-300 text-black self-start"}`}
           >
             {msg.text}
           </div>

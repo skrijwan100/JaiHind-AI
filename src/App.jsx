@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import './App.css'
-import logo from "./assets/JaiHindAi1.png"
 import Chatbot from './components/chatbot'
 import { TypeAnimation } from 'react-type-animation';
 
