@@ -18,3 +18,9 @@ body::-webkit-scrollbar-thumb {
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+@media (max-width: 430px) {
+  .phonesize{
+    width: 95vw;
+  }
+}
