@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import Chatbot from './components/chatbot'
+import Chatbot from './components/Chatbot'
 import { TypeAnimation } from 'react-type-animation';
 
 function App() {
