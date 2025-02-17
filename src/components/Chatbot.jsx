@@ -33,7 +33,7 @@ export default function Chatbot() {
         return setMessages(prev => [...prev, { text:"samraat shaahajahaan dvaara apanee patnee mumataaj kee yaad mein banavaaya gaya taajamahal, mugal viraasat ka ek vaastushilp chamatkaar hai aur aagara mein ek yoonesko vishv dharohar sthal hai.", sender: "bot" }]);
         
       }
-      if(input==="who is Ankita?"){
+      if(input==="who is Ankita?~"){
         return setMessages(prev => [...prev, { text:"Sob thake faltu akta maya duniyar kaj nai kono sudhu kahi phone dhake ar ghmai. and a good boy name rijwan or palli pora ai gan ta gai `vogoban pora chi ami kar palli` but jai hok aktu holi se ai faltu tar jonno life happy thake.so thank you darling", sender: "bot" }]);
       }
       else{
