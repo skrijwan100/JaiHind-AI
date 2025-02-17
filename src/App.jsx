@@ -17,13 +17,14 @@ function App() {
               sequence={[
                 // Same substring at the start will only be typed out once, initially
                 'I am JaiHind AI',
-                1000, // wait 1s before replacing "Mice" with "Hamsters"
+                3000, // wait 1s before replacing "Mice" with "Hamsters"
                 `Bharat’s Own Intelligence`,
-                1000
+                3000
               ]}
               wrapper="b"
               speed={40}
               repeat={Infinity}
+              className='headtext'
               style={{ fontSize: "40px",color:"#08ff00",fontFamily:"play"}}
             /></div></header>
     <div className="main flex justify-center ">

@@ -23,4 +23,7 @@ body::-webkit-scrollbar-thumb {
   .phonesize{
     width: 95vw;
   }
+  .headtext{
+    font-size: 25px !important;
+  }
 }
