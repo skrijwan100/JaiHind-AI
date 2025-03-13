@@ -4,3 +4,68 @@
     justify-content: end;
     align-items: center;
 }
+.input {
+
+    background-color: #1a1a1a;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+  }
+  
+  .input:focus {
+    animation: rotateShadow 2s infinite linear;
+  }
+  
+  @keyframes rotateShadow {
+    0% {
+      box-shadow: -2px -2px 8px 1px #55ff00, 2px 2px 8px 1px #ff00ea;
+    }
+    25% {
+      box-shadow: -2px 2px 8px 1px #55ff00, 2px -2px 8px 1px #ff00ea;
+    }
+    50% {
+      box-shadow: 2px 2px 8px 1px #55ff00, -2px -2px 8px 1px #ff00ea;
+    }
+    75% {
+      box-shadow: 2px -2px 8px 1px #55ff00, -2px 2px 8px 1px #ff00ea;
+    }
+    100% {
+      box-shadow: -2px -2px 8px 1px #55ff00, 2px 2px 8px 1px #ff00ea;
+    }
+  }
+  .OTPbtn {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.8em 1.3em 0.8em 0.9em;
+    color: white;
+    background: #ad5389;
+    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    border: none;
+    letter-spacing: 0.05em;
+    border-radius: 16px;
+  }
+  
+  .OTPbtn svg {
+    margin-right: 3px;
+    transform: rotate(30deg);
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  
+  .OTPbtn span {
+    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  
+  .OTPbtn:hover svg {
+    transform: translateX(5px) rotate(90deg);
+  }
+  
+  .OTPbtn:hover span {
+    transform: translateX(7px);
+  }
+  

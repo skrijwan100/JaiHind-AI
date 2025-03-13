@@ -1,6 +1,7 @@
 import { useState } from "react";
 import logo from "../assets/JaiHindAi1.png"
 import { TypeAnimation } from 'react-type-animation';
+import Textwrite from "./Textwrite";
 export default function Chatbot() {
   const [messages, setMessages] = useState([
     // { text: "Hello! How can I assist you?", sender: "bot" }
@@ -43,6 +44,9 @@ export default function Chatbot() {
   };
 
   return (
+    <>
+    <Textwrite/>
+    <div className="main flex justify-center ">
     <div className="phonesize flex flex-col  mx-auto  bg-[#1B1B2F] rounded-lg shadow-lg  h-[89vh] w-[60vw] border-2 border-[#00E5FF]" style={{ marginTop: "8px", padding: "10px",fontSize:"20px" }}>
       <div className="flex-1 overflow-y-auto mb-2 space-y-2" >
         <div className={`flex flex-col-reverse  justify-center items-center ${hellomessage?"h-[100%]":""}`} style={{fontFamily:"Tektur",fontSize:"30px",fontWeight:"600",color:"#58f5ff"}}>
@@ -56,15 +60,15 @@ export default function Chatbot() {
               ]}
               speed={40}
               repeat={Infinity}
-            />:""}
+              />:""}
         {hellomessage?<img src={logo} alt="" style={{width:"100px",borderRadius:"50%",height:"100px"}} />:""}
           </div>
         {messages.map((msg, index) => (
           <div
             key={index}
-           style={{padding:"5px",marginBottom:"5px"}}
+            style={{padding:"5px",marginBottom:"5px"}}
             className={`p-2 rounded-lg  ${msg.sender === "user" ? "bg-blue-500 flex text-white self-end set-text" : "bg-gray-300 text-black self-start"}`}
-          >
+            >
             {msg.text}
           </div>
         ))}
@@ -77,7 +81,7 @@ export default function Chatbot() {
           onChange={(e) => setInput(e.target.value)}
           className="flex-1 border-2 border-[#00E5FF] rounded-l-lg focus:outline-none h-[45px]"
           placeholder="Type your message..."
-        />
+          />
         <button
           onClick={sendMessage}
           style={{width:"100px",cursor:"pointer"}}
@@ -87,5 +91,7 @@ export default function Chatbot() {
         </button>
       </div>
     </div>
+    </div>
+            </>
   );
 }

@@ -1,35 +1,27 @@
-import { useState } from 'react'
 import './App.css'
+import {
+  BrowserRouter ,
+  Routes,
+  Route,
+} from "react-router-dom";
 import Chatbot from './components/Chatbot'
-import { TypeAnimation } from 'react-type-animation';
+import Navbar from './components/Navbar';
+import Singup from './components/Singup';
 
 function App() {
 
   return (
     <>
-    <header className='text-center'>
-      <div className='flex justify-center'>
+    <BrowserRouter>
+        <Navbar/>
+    
+    
+    <Routes>
+      <Route path='/singup' element={<Singup/>}/>
+      <Route path='/' element={<Chatbot/>}/>
+    </Routes>
+    </BrowserRouter>
 
-      {/* <img src={logo} alt="This is logo"  style={{width:"100px",borderRadius:"50%",height:"100px"}}/> */}
-      </div>
-      <div className="wish">
-            <TypeAnimation
-              sequence={[
-                // Same substring at the start will only be typed out once, initially
-                'I am JaiHind AI',
-                3000, // wait 1s before replacing "Mice" with "Hamsters"
-                `Bharat’s Own Intelligence`,
-                3000
-              ]}
-              wrapper="b"
-              speed={40}
-              repeat={Infinity}
-              className='headtext'
-              style={{ fontSize: "40px",color:"#08ff00",fontFamily:"play"}}
-            /></div></header>
-    <div className="main flex justify-center ">
-      <Chatbot/>
-    </div>
     </>
   )
 }
