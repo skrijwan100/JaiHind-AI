@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
-
+import { handleError,handleSuccess } from './Alert'
+import { useNavigate } from 'react-router'
 
 export default function Singup() {
-    const [useremail, setUseremail] = useState({ email: "" })
+    const [useremail, setUseremail] = useState({ email: "",otp:"" })
+    const [otpbox,setOptbox]=useState(false)
+    const naviget= useNavigate()
     const handlesubmit = async (e) => {
         e.preventDefault();
         const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/sendmail`
+       
         const responce = await fetch(url, {
             method: "POST",
             headers: {
@@ -14,7 +18,31 @@ export default function Singup() {
             body: JSON.stringify({ email: useremail.email })
         })
         const data = await responce.json()
-        console.log(data)
+        if(data.mess===true){
+           handleSuccess("OTP has been sent")
+        }
+        else{
+            return handleError("A error occourd try again.")
+        }
+        setOptbox(true)
+    }
+    const hndaleotptest=async(e)=>{
+        e.preventDefault()
+        const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/verifyotp`
+        // console.log(useremail.otp,typeof(useremail.otp))
+        const responce= await fetch(url,{
+            method:'POST',
+            headers:{
+                 "Content-Type": "application/json"
+            },
+            body: JSON.stringify({userotp:useremail.otp})
+        })
+        const data= await responce.json();
+        handleSuccess("OTP has  macthed")
+        if(data.verify){
+            naviget("/createacc")
+        }
+        // console.log(data)
     }
     const onchange = (e) => {
         setUseremail({ ...useremail, [e.target.name]: e.target.value })
@@ -23,11 +51,12 @@ export default function Singup() {
     return (
         <div >
             <div className="box" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh" }}>
-                <div style={{height:"400px",width:"330px",display:"flex",justifyContent:"center",alignItems:"center",background:"#00000045",boxShadow:"8px 6px 4px 0px #000000b5",borderRadius:"15px"}}>
-                    <form onSubmit={handlesubmit}>
-                        <input name="email" onChange={onchange} value={useremail.email} style={{ width: "300px" }} placeholder="Enter your email" className="input" type="email" />
+                <div style={{height:"260px",width:"330px",display:"flex",justifyContent:"center",alignItems:"center",background:"#00000045",boxShadow:"8px 6px 4px 0px #000000b5",borderRadius:"15px"}}>
+                    <form className='flex justify-center flex-col gap-5' onSubmit={otpbox?hndaleotptest:handlesubmit}>
+                        <input name="email" onChange={onchange} value={useremail.email} style={{ width: "300px" }} placeholder="Enter your email" className="input" type="email" required/>
+                        {otpbox? <input name="otp" onChange={onchange} value={useremail.otp} style={{ width: "300px" }} placeholder="Enter OTP" className="input" type="text" required />:""}
                         <div className="btn" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <button className='OTPbtn' type='submit' style={{ marginTop: "19px" }} >
+                            <button  className='OTPbtn' type='submit' style={{ marginTop: "19px" }} >
                                 <svg
                                     height="24"
                                     width="24"
@@ -40,7 +69,7 @@ export default function Singup() {
                                         fill="currentColor"
                                     ></path>
                                 </svg>
-                                <span>Verify your email</span>
+                                <span>{otpbox?"Verify OTP":'Send OTP'}</span>
                             </button>
 
                         </div>

@@ -44,8 +44,8 @@ const sendmail = (sendemail, otp) => {
         <p>If you did not request this, please ignore this email.</p>
         <div class="footer">
             <p>Best regards,<br>
-            <strong>[Your Company Name]</strong><br>
-            [Your Support Email] | [Your Website URL]</p>
+            <strong>Undefine</strong><br>
+            rijwansk329@gmail.com | https://skrijwan.vercel.app</p>
         </div>
     </div>
 </body>
