@@ -11,8 +11,14 @@ import Login from './components/Login';
 import Mainsingup from './components/Mainsingup';
 import { ToastContainer } from 'react-toastify'
 import { Flip } from 'react-toastify';
+import { useState } from 'react';
 
 function App() {
+  const [authemail,setAuthemail]=useState({email:""})
+
+  const setemail=(useremail)=>{
+    setAuthemail(useremail)
+  }
 
   return (
     <>
@@ -22,10 +28,10 @@ function App() {
     
     
     <Routes>
-      <Route path='/singup' element={<Singup/>}/>
+      <Route path='/singup' element={<Singup setemail={setemail}/>} />
       <Route path='/' element={<Chatbot/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/createacc' element={<Mainsingup/>}/>
+      <Route path='/createacc' element={<Mainsingup  setemail={setemail} authemail={authemail}/>}/>
 
     </Routes>
     </BrowserRouter>

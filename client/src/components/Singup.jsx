@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { handleError,handleSuccess } from './Alert'
 import { useNavigate } from 'react-router'
 
-export default function Singup() {
+export default function Singup({setemail}) {
     const [useremail, setUseremail] = useState({ email: "",otp:"" })
     const [otpbox,setOptbox]=useState(false)
     const naviget= useNavigate()
     const handlesubmit = async (e) => {
         e.preventDefault();
+        setemail(useremail.email)
         const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/sendmail`
        
         const responce = await fetch(url, {
