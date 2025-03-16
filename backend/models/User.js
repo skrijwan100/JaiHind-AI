@@ -9,7 +9,7 @@ const newuser= new Schema({
       type:String,
       require:true,
     },
-    userpic:{
+    profilePic:{
         type:String,
         default:'https://res.cloudinary.com/dcvejeszo/image/upload/v1741595130/user_profiles/ibsgbbfdxkk3d6qirsrg.jpg'
     },

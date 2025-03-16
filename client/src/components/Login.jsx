@@ -6,7 +6,7 @@ export default function Login() {
         <div>
             <div className="box" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh" }}>
                
-                <div style={{ height: "400px", width: "330px", display: "flex",flexDirection:"column", justifyContent: "center", alignItems: "center", background: "#00000045", boxShadow: "8px 6px 4px 0px #000000b5", borderRadius: "15px" }}>
+                <div style={{ height: "300px", width: "330px", display: "flex",flexDirection:"column", justifyContent: "center", alignItems: "center", background: "#00000045", boxShadow: "8px 6px 4px 0px #000000b5", borderRadius: "15px" }}>
                 <h1 className='text-3xl font-bold text-white' style={{marginBottom:"25px"}}>Login</h1>
                     <form className='flex justify-center flex-col gap-5'>
                         <input name="email"  style={{ width: "300px" }} placeholder="email" className="input" type="email" />

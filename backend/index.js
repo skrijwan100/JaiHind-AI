@@ -14,6 +14,8 @@ const coresoption = {
     optionsSuccessStatus: 200 // Fixes some browser CORS issues
 }
 app.use(cors(coresoption));
+app.use(express.urlencoded({ extended: true })); 
+app.use("/upload", express.static("upload"));
 
 app.get("/",(req,res)=>{
     res.status(200).json({"message":"code run done"})

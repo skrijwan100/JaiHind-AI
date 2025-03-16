@@ -1,40 +1,83 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { handleError, handleSuccess } from './Alert'
+import axios from "axios";
+import loderpic from "../assets/loder.gif"
+import { useNavigate } from 'react-router';
 
-export default function Mainsingup({authemail}) {
-    const [userauth,setUserauth]=useState({fullname:"",password:"",repassword:""})
-    useEffect(()=>{
-        console.log(authemail)
-        console.log(authemail.email)
-    },[])
-    const onchange=(e)=>{
-        setUserauth({...userauth,[e.target.value]:e.target.name})
+export default function Mainsingup({ authemail }) {
+    const [userauth, setUserauth] = useState({ fullname: "", password: "", repassword: "" })
+    const [selectedFile,setSelectedFile]=useState(null)
+     const [loder,setloder]=useState(false)
+    const naviget= useNavigate()
+    const onchange = (e) => {
+        setUserauth({ ...userauth, [e.target.name]: e.target.value })
     }
+    const handleupload=(e)=>{
+        setSelectedFile(e.target.files[0]);
+    }
+    const handlesubmit= async(e)=>{
+        e.preventDefault();
+        setloder(true)
+        if(userauth.password!=userauth.repassword){
+            return handleError("password not macthed.")
+        } 
+        const formData = new FormData();
+        if(selectedFile){
+
+            formData.append("profilepic", selectedFile); 
+        }
+        const userDetails =({
+            name:userauth.fullname,
+            email:authemail,
+            password:userauth.password,
+        })
+        formData.append("userDetails", JSON.stringify(userDetails));
+        try {
+            const responce= await axios.post(`${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/register`,formData,{
+                headers:{
+                    "Content-Type": "multipart/form-data",
+                }
+            });
+            console.log("Upload Success:", responce.data);
+            if(responce.data.auth){
+                handleSuccess("Account was created")
+                naviget("/login")
+            }
+            setloder(false)
+            
+        } catch (error) {
+            console.log("Upload Error:", error);
+            handleError("Some error happend")
+            setloder(false)
+        }
+    }
+
     return (
         <div>
-            
+
             <div className="box" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh" }}>
 
-                <div style={{ height: "500px", width: "330px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", background: "#00000045", boxShadow: "8px 6px 4px 0px #000000b5", borderRadius: "15px" }}>
+                <div style={{ height: "540px", width: "330px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", background: "#00000045", boxShadow: "8px 6px 4px 0px #000000b5", borderRadius: "15px" }}>
                     <h1 className='text-3xl font-bold text-white' style={{ marginBottom: "25px" }}>Create an account</h1>
-                    <form className='flex justify-center flex-col gap-5'>
-                        <input name="fullname" onChange={onchange} value={userauth.fullname} style={{ width: "300px" }} placeholder="Enter full name" className="input" type="text" />
+                    <form onSubmit={handlesubmit} className='flex justify-center flex-col gap-5' >
+                        <input name="fullname" onChange={onchange} value={userauth.fullname} style={{ width: "300px" }} placeholder="Enter full name" className="input" type="text" required minLength={4} />
                         <input name="email" style={{ width: "300px" }} value={authemail} placeholder="Enter email" className="input" type="email" readOnly />
-                     
-                        <input name="password" onChange={onchange} value={userauth.password} style={{ width: "300px" }} placeholder="Enter password" className="input" type="password" />
-                        <input name="repassword" onChange={onchange} value={userauth.repassword} style={{ width: "300px" }} placeholder="conform password" className="input" type="password" />
+
+                        <input name="password" onChange={onchange} value={userauth.password} style={{ width: "300px" }} placeholder="Enter password" className="input" type="password" required minLength={6} />
+                        <input name="repassword" onChange={onchange} value={userauth.repassword} style={{ width: "300px" }} placeholder="conform password" className="input" type="password" required />
                         <h1 className="text-white text-xl font-semibold text-center">Upload your Profile Pic</h1>
                         <div>
-                            
-                        <input
-                            type="file"
-                            accept="image/*"
-                            // onChange={handleupload}
-                            className="file:bg-blue-600 file:text-white file:px-4 file:py-2 file:border-none file:rounded-md file:cursor-pointer file:hover:bg-blue-700 bg-gray-800 text-gray-300 rounded-md p-2"
-                        />
+
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleupload}
+                                className="file:bg-blue-600 file:text-white file:px-4 file:py-2 file:border-none file:rounded-md file:cursor-pointer file:hover:bg-blue-700 bg-gray-800 text-gray-300 rounded-md p-2"
+                            />
                         </div>
-                        
+
                         <div className="btn" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <button className='OTPbtn' type='submit'  >
+                            {loder?<img style={{width:"190px"}}src={loderpic} alt="loder" />:<button className='OTPbtn' type='submit'  >
                                 <svg
                                     height="24"
                                     width="24"
@@ -48,7 +91,7 @@ export default function Mainsingup({authemail}) {
                                     ></path>
                                 </svg>
                                 <span>Creact account</span>
-                            </button>
+                            </button>}
 
                         </div>
 

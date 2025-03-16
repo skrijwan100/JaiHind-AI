@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { handleError,handleSuccess } from './Alert'
 import { useNavigate } from 'react-router'
+import loderpic from "../assets/loder.gif"
 
 export default function Singup({setemail}) {
     const [useremail, setUseremail] = useState({ email: "",otp:"" })
     const [otpbox,setOptbox]=useState(false)
+    const [loder,setloder]=useState(false)
     const naviget= useNavigate()
     const handlesubmit = async (e) => {
         e.preventDefault();
+        setloder(true)
         setemail(useremail.email)
         const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/sendmail`
        
@@ -19,18 +22,24 @@ export default function Singup({setemail}) {
             body: JSON.stringify({ email: useremail.email })
         })
         const data = await responce.json()
+        if(data.notauth){
+           setloder(false)
+           return handleError("You alredy have a account")
+        }
         if(data.mess===true){
            handleSuccess("OTP has been sent")
         }
         else{
+            setloder(false)
             return handleError("A error occourd try again.")
         }
+        setloder(false)
         setOptbox(true)
     }
     const hndaleotptest=async(e)=>{
         e.preventDefault()
+        setloder(true)
         const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/verifyotp`
-        // console.log(useremail.otp,typeof(useremail.otp))
         const responce= await fetch(url,{
             method:'POST',
             headers:{
@@ -41,8 +50,9 @@ export default function Singup({setemail}) {
         const data= await responce.json();
         handleSuccess("OTP has  macthed")
         if(data.verify){
-            naviget("/createacc")
+           return naviget("/createacc")
         }
+       setloder(false)
         // console.log(data)
     }
     const onchange = (e) => {
@@ -57,7 +67,7 @@ export default function Singup({setemail}) {
                         <input name="email" onChange={onchange} value={useremail.email} style={{ width: "300px" }} placeholder="Enter your email" className="input" type="email" required/>
                         {otpbox? <input name="otp" onChange={onchange} value={useremail.otp} style={{ width: "300px" }} placeholder="Enter OTP" className="input" type="text" required />:""}
                         <div className="btn" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <button  className='OTPbtn' type='submit' style={{ marginTop: "19px" }} >
+                            {loder?<img style={{width:"190px"}}src={loderpic} alt="loder" />:<button  className='OTPbtn' type='submit' style={{ marginTop: "19px" }} >
                                 <svg
                                     height="24"
                                     width="24"
@@ -71,7 +81,7 @@ export default function Singup({setemail}) {
                                     ></path>
                                 </svg>
                                 <span>{otpbox?"Verify OTP":'Send OTP'}</span>
-                            </button>
+                            </button>}
 
                         </div>
 
