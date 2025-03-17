@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User")
+const jwt= require("jsonwebtoken")
 const sendemail = require("../middleware/sendmail")
 const bcrypt = require("bcrypt");
 // const { body, validationResult } = require('express-validator');
@@ -74,5 +75,21 @@ router.post("/register", upload.single("profilepic"), async (req, res) => {
 
     }
 
+})
+router.post("/login",async(req,res)=>{
+    const {email,password}=req.body;
+    const finduser= await User.findOne({email})
+    if(!finduser){
+        return res.status(400).json({"message":"Invalid Credential","auth":false})
+
+    }
+    const chake_pass= await bcrypt.compare(password,finduser.password)
+    if(!chake_pass){
+        return res.status(400).json({"message":"Invalid Credential","auth":false})
+    }
+    const authtoken= jwt.sign({
+        user:finduser._id
+    },process.env.JWT_SERECT)
+    return res.status(200).json({"message":"login","auth":true})
 })
 module.exports = router;

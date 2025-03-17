@@ -1,16 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { handleError,handleSuccess } from './Alert'
 
 export default function Login() {
+    const [auth,setAuth]=useState({email:"",password:""})
+    const onchange=(e)=>{
+        setAuth({...auth,[e.target.name]:e.target.value})
+    }
+    const handlesubmit=async(e)=>{
+        e.preventDefault();
+        const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/login`  
+        const responce= await  fetch(url,{
+            method:"POST",
+            headers:{
+                 "Content-Type": "application/json"
+            },
+            body: JSON.stringify({email:auth.email,password:auth.password})
+        })
+        const data= await responce.json()
+        if(!data.auth){
+            return handleError("Invalid Credential")
+        }
+        return handleSuccess("login successfully")
+
+    }
     return (
         <div>
             <div className="box" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh" }}>
                
                 <div style={{ height: "300px", width: "330px", display: "flex",flexDirection:"column", justifyContent: "center", alignItems: "center", background: "#00000045", boxShadow: "8px 6px 4px 0px #000000b5", borderRadius: "15px" }}>
                 <h1 className='text-3xl font-bold text-white' style={{marginBottom:"25px"}}>Login</h1>
-                    <form className='flex justify-center flex-col gap-5'>
-                        <input name="email"  style={{ width: "300px" }} placeholder="email" className="input" type="email" />
-                        <input name="password"  style={{ width: "300px" }} placeholder="password" className="input" type="password" />
+                    <form onSubmit={handlesubmit} className='flex justify-center flex-col gap-5'>
+                        <input name="email" onChange={onchange} value={auth.email}  style={{ width: "300px" }} placeholder="email" className="input" type="email" />
+                        <input name="password" onChange={onchange} value={auth.password} style={{ width: "300px" }} placeholder="password" className="input" type="password" />
                         <div className="btn" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <button className='OTPbtn' type='submit'  >
                                 <svg
