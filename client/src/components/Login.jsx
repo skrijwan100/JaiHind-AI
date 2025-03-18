@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { handleError,handleSuccess } from './Alert'
+import { useNavigate } from 'react-router'
+
 
 export default function Login() {
     const [auth,setAuth]=useState({email:"",password:""})
+    const naviget=useNavigate()
     const onchange=(e)=>{
         setAuth({...auth,[e.target.name]:e.target.value})
     }
@@ -14,14 +17,22 @@ export default function Login() {
             headers:{
                  "Content-Type": "application/json"
             },
-            body: JSON.stringify({email:auth.email,password:auth.password})
+            body: JSON.stringify({email:auth.email,password:auth.password}),
+            credentials: "include"
         })
         const data= await responce.json()
         if(!data.auth){
             return handleError("Invalid Credential")
         }
-        return handleSuccess("login successfully")
 
+        
+        naviget("/")
+        setTimeout(()=>{
+            location.reload()
+        },1000)
+       handleSuccess("login successfully")
+      
+ 
     }
     return (
         <div>

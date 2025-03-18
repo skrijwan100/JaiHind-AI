@@ -42,6 +42,7 @@ export default function Mainsingup({ authemail }) {
             if(responce.data.auth){
                 handleSuccess("Account was created")
                 naviget("/login")
+               
             }
             setloder(false)
             

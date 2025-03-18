@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User")
-const jwt= require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 const sendemail = require("../middleware/sendmail")
 const bcrypt = require("bcrypt");
 // const { body, validationResult } = require('express-validator');
-const cloudinary= require("../config/cloudinary")
-const fs=require("fs")
-const upload = require("../middleware/upload")
+const cloudinary = require("../config/cloudinary")
+const fs = require("fs")
+const upload = require("../middleware/upload");
+const fecthuer = require("../middleware/fecthuser");
 let otp = null;
 
 router.post("/sendmail", async (req, res) => {
@@ -15,7 +16,7 @@ router.post("/sendmail", async (req, res) => {
         const { email } = req.body;
         const finduer = await User.findOne({ email })
         if (finduer) {
-            return res.status(400).json({ "error": "This email alredy have a account", "notauth":true  })
+            return res.status(400).json({ "error": "This email alredy have a account", "notauth": true })
         }
         otp = Math.floor((Math.random() * 1000000) + 1);
         console.log(otp)
@@ -47,7 +48,7 @@ router.post("/verifyotp", async (req, res) => {
 router.post("/register", upload.single("profilepic"), async (req, res) => {
     try {
         const { name, email, password } = JSON.parse(req.body.userDetails);
-        console.log(name,email,password)
+        console.log(name, email, password)
         if (!req.file) {
             return res.status(400).json({ error: "No file uploaded" });
         }
@@ -76,20 +77,61 @@ router.post("/register", upload.single("profilepic"), async (req, res) => {
     }
 
 })
-router.post("/login",async(req,res)=>{
-    const {email,password}=req.body;
-    const finduser= await User.findOne({email})
-    if(!finduser){
-        return res.status(400).json({"message":"Invalid Credential","auth":false})
+router.post("/login", async (req, res) => {
+    try {
+
+
+        const { email, password } = req.body;
+        const finduser = await User.findOne({ email })
+        if (!finduser) {
+            return res.status(400).json({ "message": "Invalid Credential", "auth": false })
+
+        }
+        const chake_pass = await bcrypt.compare(password, finduser.password)
+        if (!chake_pass) {
+            return res.status(400).json({ "message": "Invalid Credential", "auth": false })
+        }
+        const authtoken = jwt.sign({
+            user: finduser._id
+        }, process.env.JWT_SERECT)
+        res.cookie("auth-token", authtoken, {
+            httpOnly: false,             // Make cookie secure
+            sameSite: "None",           // Cross-origin compatibility
+            secure: true,  // Use `secure` only in production
+            maxAge: 24 * 60 * 60 * 1000
+        })
+        return res.status(200).json({ "message": "login", "auth": true })
+    } catch (error) {
+        console.log(error)
+        return res.status(505).json({ "error": "Internal server error." })
 
     }
-    const chake_pass= await bcrypt.compare(password,finduser.password)
-    if(!chake_pass){
-        return res.status(400).json({"message":"Invalid Credential","auth":false})
+})
+router.get("/getuser", fecthuer, async (req, res) => {
+    try {
+        const userid = req.user;
+        const userdata = await User.findById(userid).select("-password");
+        console.log(userdata)
+        res.status(200).json({ "message": userdata })
+    } catch (error) {
+        console.log(error)
+        return res.status(505).json({ "error": "Internal server error." })
     }
-    const authtoken= jwt.sign({
-        user:finduser._id
-    },process.env.JWT_SERECT)
-    return res.status(200).json({"message":"login","auth":true})
+})
+router.post("/logout", (req, res) => {
+    try {
+
+
+        res.clearCookie("auth-token", {
+            httpOnly: false,             // Make cookie secure
+            sameSite: "None",           // Cross-origin compatibility
+            secure: true,  // Use `secure` only in production
+            maxAge: 24 * 60 * 60 * 1000
+        });
+        return res.status(200).json({ message: "Logged out successfully", "status": true });
+    } catch (error) {
+        console.log(error)
+        return res.status(505).json({ "error": "Internal server error." })
+    }
 })
 module.exports = router;
