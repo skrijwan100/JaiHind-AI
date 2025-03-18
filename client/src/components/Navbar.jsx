@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import Cookies from 'js-cookie';
-import jaiHind from "../assets/jaiHindAi1.png"
+import jaiHind from "../assets/JaiHindAi1.png"
 
 export default function Navbar({showuser}) {
     // const isAuthenticated = Cookies.get('auth-token');
