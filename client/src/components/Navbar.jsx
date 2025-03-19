@@ -38,7 +38,6 @@ export default function Navbar({showuser}) {
          
             {isAuthenticated ? <nav>
                 {pic && userdata ? <div className='flex justify-center'>
-                    {console.log(userdata.message.profilePic)}
                     <img onClick={getuserdata} style={{ height: "60px", width: "60px", borderRadius: "50%", cursor: "pointer" }} src={userdata.message.profilePic} alt="User Pic" />
                 </div> : <div className='flex justify-center'>
                     <img style={{ height: "60px", width: "60px", borderRadius: "50%", cursor: "pointer" }} src={jaiHind} alt="User Pic" />

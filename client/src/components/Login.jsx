@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { handleError,handleSuccess } from './Alert'
 import { useNavigate } from 'react-router'
-
+import loderpic from "../assets/loder.gif"
 
 export default function Login() {
     const [auth,setAuth]=useState({email:"",password:""})
+    const [loder,setloder]=useState(false)
     const naviget=useNavigate()
     const onchange=(e)=>{
         setAuth({...auth,[e.target.name]:e.target.value})
     }
     const handlesubmit=async(e)=>{
         e.preventDefault();
+        setloder(true)
         const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/login`  
         const responce= await  fetch(url,{
             method:"POST",
@@ -25,7 +27,7 @@ export default function Login() {
             return handleError("Invalid Credential")
         }
 
-        
+        setloder(false)
         naviget("/")
         setTimeout(()=>{
             location.reload()
@@ -44,7 +46,7 @@ export default function Login() {
                         <input name="email" onChange={onchange} value={auth.email}  style={{ width: "300px" }} placeholder="email" className="input" type="email" />
                         <input name="password" onChange={onchange} value={auth.password} style={{ width: "300px" }} placeholder="password" className="input" type="password" />
                         <div className="btn" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <button className='OTPbtn' type='submit'  >
+                            {loder?<img style={{width:"190px"}}src={loderpic} alt="loder" />:<button className='OTPbtn' type='submit'  >
                                 <svg
                                     height="24"
                                     width="24"
@@ -58,8 +60,7 @@ export default function Login() {
                                     ></path>
                                 </svg>
                                 <span>Login</span>
-                            </button>
-
+                            </button>}
                         </div>
 
                     </form>

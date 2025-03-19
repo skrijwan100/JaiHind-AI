@@ -48,9 +48,13 @@ export default function Singup({setemail}) {
             body: JSON.stringify({userotp:useremail.otp})
         })
         const data= await responce.json();
-        handleSuccess("OTP has  macthed")
         if(data.verify){
-           return naviget("/createacc")
+            handleSuccess("OTP has  macthed")
+            return naviget("/createacc")
+        }
+        if(!data.verify){
+            handleError("OTP has not macthed")
+            
         }
        setloder(false)
         // console.log(data)

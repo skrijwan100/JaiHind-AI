@@ -10,7 +10,7 @@ app.use(cookieParser())
 app.use(express.json())
 const coresoption = {
     origin: `${process.env.FRONTEND_URL}`,
-    methods: ['GET', 'POST', 'DELETE'], // Ensure methods are in an array
+    methods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PUT', 'PATCH'], // Ensure methods are in an array
     allowedHeaders: ['Content-Type', 'Authorization', 'auth-token'],
     credentials: true, // Allow cookies/auth headers
     optionsSuccessStatus: 200 // Fixes some browser CORS issues
