@@ -23,7 +23,7 @@ router.post("/sendmail", async (req, res) => {
         const send = await sendemail(email, otp);
         console.log("✅ Email Response:", send);
   
-        return res.status(200).json({ "message": "send mail", "mess": true })
+        return res.status(200).json({ "message": "send was mail", "mess": true })
 
 
         // return res.status(200).json({ "message": "send mail", "mess": true })
