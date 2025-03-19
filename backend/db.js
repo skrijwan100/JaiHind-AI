@@ -1,10 +1,7 @@
 const mongoose= require('mongoose')
 const connectserver =async()=>{
     try {
-        await mongoose.connect(process.env.mongoURI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+        await mongoose.connect(process.env.mongoURI);
         console.log("The server is run.")
         
     } catch (error) {
