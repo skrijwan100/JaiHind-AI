@@ -1,19 +1,20 @@
-const nodemailer = require("nodemailer")
-const sendmail = (sendemail, otp) => {
+const nodemailer = require("nodemailer");
+const util = require("util");  // Import util for promisify
+
+const sendemail = async (sendemail, otp) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.EMAIL, // Your email
-            pass: process.env.PASSWORD, // App password (not your real password)
-        },
-
-
+            user: process.env.EMAIL,      // Your email
+            pass: process.env.PASSWORD    // App password (not your real password)
+        }
     });
+
     const otpEmailTemplateHTML = (otp) => `
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <style>
         .container {
             font-family: Arial, sans-serif;
             max-width: 600px;
@@ -33,10 +34,10 @@ const sendmail = (sendemail, otp) => {
             font-size: 12px;
             color: #555;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
+        </style>
+        </head>
+        <body>
+        <div class="container">
         <h2>Hello,</h2>
         <p>Your One-Time Password (OTP) for verification is:</p>
         <p class="otp-code">${otp}</p>
@@ -47,23 +48,29 @@ const sendmail = (sendemail, otp) => {
             <strong>Undefine</strong><br>
             rijwansk329@gmail.com | https://skrijwan.vercel.app</p>
         </div>
-    </div>
-</body>
-</html>
-`;
+        </div>
+        </body>
+        </html>
+    `;
+
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: process.env.EMAIL,    // Fixed the `from` field
         to: sendemail,
         subject: "OTP Verification Code",
-        // text: `Let's connect with us 🔥. Your Verification Code: ${otp}`,
         html: otpEmailTemplateHTML(otp),
     };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log("Error sending email:", error);
-        } else {
-            console.log("Email sent:", info.response);
-        }
-    });
-}
-module.exports = sendmail;
+
+    // Convert sendMail to return a promise
+    const sendMailAsync = util.promisify(transporter.sendMail.bind(transporter));
+
+    try {
+        const info = await sendMailAsync(mailOptions);
+        console.log("✅ Email sent:", info.response);
+        return info.response;  // Return the response
+    } catch (error) {
+        console.error("❌ Error sending email:", error);
+        throw error;   // Throw error for proper handling
+    }
+};
+
+module.exports = sendemail;

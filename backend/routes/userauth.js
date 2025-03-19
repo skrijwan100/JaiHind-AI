@@ -20,8 +20,13 @@ router.post("/sendmail", async (req, res) => {
         }
         otp = Math.floor((Math.random() * 1000000) + 1);
         console.log(otp)
-        sendemail(email, otp);
+        const send = await sendemail(email, otp);
+        console.log("✅ Email Response:", send);
+  
         return res.status(200).json({ "message": "send mail", "mess": true })
+
+
+        // return res.status(200).json({ "message": "send mail", "mess": true })
 
     } catch (error) {
         console.log(error)
