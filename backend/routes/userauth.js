@@ -130,7 +130,7 @@ router.post("/logout", (req, res) => {
         res.clearCookie("auth-token", {
             httpOnly: false,             // Make cookie secure
             sameSite: "None",           // Cross-origin compatibility
-            secure: true,  // Use `secure` only in production
+            secure: false,  // Use `secure` only in production
             maxAge: 24 * 60 * 60 * 1000
         });
         return res.status(200).json({ message: "Logged out successfully", "status": true });
