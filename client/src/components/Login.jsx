@@ -24,8 +24,11 @@ export default function Login() {
         })
         const data= await responce.json()
         if(!data.auth){
+            setloder(false)
             return handleError("Invalid Credential")
         }
+        const token = data.message
+        localStorage.setItem("auth-token",token)
 
         setloder(false)
         naviget("/")

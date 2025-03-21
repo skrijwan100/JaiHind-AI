@@ -3,7 +3,7 @@ const jwt_secret=process.env.JWT_SERECT;
 
 const fecthuer=(req,res,next)=>{
     try {
-        const authtoken= req.cookies['auth-token'];
+        const authtoken= req.header("auth-token");
         if(!authtoken){
             return res.status(404).json({"massage":"Invalid Auth token"})
          }

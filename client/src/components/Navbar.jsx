@@ -9,14 +9,16 @@ export default function Navbar({showuser}) {
     const [pic,setpic]=useState()
     const [isAuthenticated,setisAuthenticated]=useState(null)
     useEffect(() => {
-        const Authenticated = Cookies.get('auth-token');
+        const Authenticated = localStorage.getItem('auth-token');
         setisAuthenticated(Authenticated)
         const fecthuserpic = async () => {
             const url = `${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/getuser`
+            const token=localStorage.getItem('auth-token')
             const responce = await fetch(url, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "auth-token":token
                 },
                 credentials: "include",
             })

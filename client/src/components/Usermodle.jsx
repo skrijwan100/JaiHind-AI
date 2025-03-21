@@ -6,19 +6,9 @@ export default function Modal(props) {
 //   const naviget=useNavigate()
     const logout= async(e)=>{
         e.preventDefault();
-        const url=`${import.meta.env.VITE_BACKEND_URL}/v1/api/userauth/logout`
-        const responce= await fetch(url,{
-            method:"POST",
-            headers:{
-                 "Content-Type": "application/json"
-            },
-            credentials: "include", 
-        })
-        const data= await responce.json()
-        console.log(data)
-        if(data.status){
+       localStorage.removeItem('auth-token')
             location.reload()
-        }
+        
     }
 //     const userhistory=async()=>{
 //       props.startLoader()   

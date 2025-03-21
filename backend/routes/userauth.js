@@ -99,13 +99,13 @@ router.post("/login", async (req, res) => {
         const authtoken = jwt.sign({
             user: finduser._id
         }, process.env.JWT_SERECT)
-        res.cookie("auth-token", authtoken, {
-            httpOnly: false,             // Make cookie secure
-            sameSite: "None",           // Cross-origin compatibility
-            secure: true,  // Use `secure` only in production
-            maxAge: 24 * 60 * 60 * 1000
-        })
-        return res.status(200).json({ "message": "login", "auth": true })
+        // res.cookie("auth-token", authtoken, {
+        //     httpOnly: false,             // Make cookie secure
+        //     sameSite: "None",           // Cross-origin compatibility
+        //     secure: true,  // Use `secure` only in production
+        //     maxAge: 24 * 60 * 60 * 1000
+        // })
+        return res.status(200).json({ "message":authtoken, "auth": true })
     } catch (error) {
         console.log(error)
         return res.status(505).json({ "error": "Internal server error." })
