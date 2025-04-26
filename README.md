@@ -4,4 +4,5 @@
 ---
 ## stape 1:
 ```bash
-git clone 'repo link' 🖇️ 
+git clone 'repo link' 🖇️
+cd JaiHind-Ai 
