@@ -6,3 +6,5 @@
 ```bash
 git clone 'repo link' 🖇️
 cd JaiHind-Ai 
+
+
