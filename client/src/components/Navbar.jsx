@@ -30,8 +30,6 @@ export default function Navbar({showuser}) {
     const getuserdata=(e)=>{
         e.preventDefault();
         showuser(userdata.message.name,userdata.message.email)
-        
-
     }
     return (
         <div>
